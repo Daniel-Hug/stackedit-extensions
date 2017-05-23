@@ -39,10 +39,8 @@ function loadScript(url, cb) {
 	var postfix = '})();';
 
 	makeRequest(url, function(js) {
-		var script = document.createElement('script');
-		script.text = prefix + js + postfix;
-		script.onload = cb;
-		document.body.appendChild(script);
+		(new Function(prefix + js + postfix))();
+		cb();
 	});
 }
 
