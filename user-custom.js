@@ -30,17 +30,14 @@ function makeRequest(url, cb) {
 			cb(request.responseText);
 		}
 	};
-	request.open('GET', url);
+	request.open('GET', url, true);
 	request.send();
 }
 
 function loadScript(url, cb) {
-	var prefix = '(function(define) {';
-	var postfix = '})();';
-
 	makeRequest(url, function(js) {
-		(new Function(prefix + js + postfix))();
-		cb();
+		new Function('on', 'loadScript', 'define', js)(on, loadScript);
+		if (cb) cb();
 	});
 }
 
