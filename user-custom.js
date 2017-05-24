@@ -41,6 +41,9 @@ function loadScript(url, cb) {
 	});
 }
 
-loadScript('https://daniel-hug.github.io/stackedit-extensions/reftagger.js');
-loadScript('https://daniel-hug.github.io/stackedit-extensions/custom-css.js');
-loadScript('https://daniel-hug.github.io/stackedit-extensions/oeis-linker.js');
+if (!scriptsLoaded) {
+	var scriptsLoaded = true;
+	loadScript('https://daniel-hug.github.io/stackedit-extensions/reftagger.js');
+	loadScript('https://daniel-hug.github.io/stackedit-extensions/custom-css.js');
+	loadScript('https://daniel-hug.github.io/stackedit-extensions/oeis-linker.js');
+}
