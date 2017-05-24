@@ -4,6 +4,7 @@
 // Load findAndReplaceDOMText
 var previewReady;
 var sequenceLinkerIsReady;
+debugger;
 loadScript('https://daniel-hug.github.io/findAndReplaceDOMText/src/findAndReplaceDOMText.js', function() {
 	sequenceLinkerIsReady = true;
 	if (previewReady) autoLinkOEIS();
