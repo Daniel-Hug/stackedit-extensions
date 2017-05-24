@@ -2,30 +2,19 @@
 	if (window.userCustomFinished) return;
 	window.userCustomFinished = true;
 
+	function capitalize(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
 	// Allow multiple listeners on userCustom events
-	var on = (function() {
-		var handlersByEvent = {};
-
-		for (var method in userCustom) {
-			if (method.slice(0, 2) !== 'on') continue;
-			var event = method.slice(2);
-			var old = userCustom[method];
-			userCustom[method] = function() {
-				var args = arguments;
-				if (typeof old === 'function') old.apply(this, args);
-				if (Array.isArray(handlersByEvent[event])) {
-					handlersByEvent[event].forEach(function(handler) {
-						handler.apply(this, args);
-					}, this);
-				}
-			};
-		}
-
-		return function addEventListener(event, handler) {
-			handlersByEvent[event] = handlersByEvent[event] || [];
-			handlersByEvent[event].push(handler);
+	function on(event, handler) {
+		var method = 'on' + capitalize(event);
+		var old = userCustom[method];
+		userCustom[method] = function() {
+			if (typeof old === 'function') old.apply(this, arguments);
+			handler.apply(this, arguments);
 		};
-	})();
+	}
 
 	function makeRequest(url, cb) {
 		var request = new XMLHttpRequest();
