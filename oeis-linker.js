@@ -70,7 +70,7 @@ function autoLinkOEIS() {
 		var batchQuery = debounce(function() {
 			var oeisURL = 'https://oeis.org/search?fmt=json&q=id:' + sequencesToLookup.join('|id:');
 			getJson(oeisURL, function(response) {
-				var results = Array.isArray(response.results) ? response.results : [response.results];
+				var results = Array.isArray(response) ? response : [response];
 				results.forEach(handleResult);
 
 				// have YQL return only essential data:
