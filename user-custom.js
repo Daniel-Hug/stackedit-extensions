@@ -5,16 +5,38 @@
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
+	
+	// safe hasOwnProperty: has(obj, prop)
+	var has = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+
+	function forIn(object, fn, scope, includeInherited) {
+		for (var key in object) {
+			if (!includeInherited && !has(object, key)) continue;
+			fn.call(scope, key, object[key], object);
+		}
+	}
 
 	// Allow multiple listeners on userCustom events
-	function on(event, handler) {
-		var method = 'on' + capitalize(event);
-		var old = userCustom[method];
-		userCustom[method] = function() {
-			if (typeof old === 'function') old.apply(this, arguments);
-			handler.apply(this, arguments);
+	var on = (function() {
+		var handlersByEvent = {};
+		var methods = ['onPreviewFinished', 'onReady'];
+
+		methods.forEach(function(method) {
+			var event = method.slice(2);
+			userCustom[method] = function() {
+				var args = arguments;
+				(handlersByEvent[event] || []).forEach(function(handler) {
+					handler.apply(this, args);
+				}, this);
+			};
+		});
+
+		return function addEventListener(event, handler) {
+			var event = capitalize(event);
+			handlersByEvent[event] = handlersByEvent[event] || [];
+			handlersByEvent[event].push(handler);
 		};
-	}
+	})();
 
 	function makeRequest(url, cb) {
 		var request = new XMLHttpRequest();
