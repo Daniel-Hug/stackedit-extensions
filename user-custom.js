@@ -5,25 +5,14 @@
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
-	
-	// safe hasOwnProperty: has(obj, prop)
-	var has = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
-
-	function forIn(object, fn, scope, includeInherited) {
-		for (var key in object) {
-			if (!includeInherited && !has(object, key)) continue;
-			fn.call(scope, key, object[key], object);
-		}
-	}
 
 	// Allow multiple listeners on userCustom events
 	var on = (function() {
 		var handlersByEvent = {};
-		var methods = ['onPreviewFinished', 'onReady'];
+		var events = ['PreviewFinished', 'Ready'];
 
-		methods.forEach(function(method) {
-			var event = method.slice(2);
-			userCustom[method] = function() {
+		events.forEach(function(event) {
+			userCustom['on' + event] = function() {
 				var args = arguments;
 				(handlersByEvent[event] || []).forEach(function(handler) {
 					handler.apply(this, args);
