@@ -1,10 +1,7 @@
 (function() {
+	// only execute once
 	if (window.userCustomFinished) return;
 	window.userCustomFinished = true;
-
-	function capitalize(str) {
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
 
 	// Allow multiple listeners on userCustom events
 	var on = (function() {
@@ -19,6 +16,10 @@
 				}, this);
 			};
 		});
+
+		function capitalize(str) {
+			return str.charAt(0).toUpperCase() + str.slice(1);
+		}
 
 		return function addEventListener(event, handler) {
 			var event = capitalize(event);
