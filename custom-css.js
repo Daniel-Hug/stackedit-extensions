@@ -17,8 +17,11 @@ function hereDoc(f) {
 // Pass a function containing css rules in a comment. They will be
 // added to a <style> element which will be appended to the <head>.
 function embedStyle(fn) {
-	// get CSS
-	var css = hereDoc(fn);
+	// get the CSS placed in a multi-line comment in the passed function
+	var css = hereDoc(fn)
+		// and replace any "//" with "/*" and to the zero or more characters other
+		// than a new line that follow append the suffix "*/"
+		.replace(/\/\/(.*)/g, '/*$1*/');
 
 	// create <style>
 	var style = document.createElement('style');
@@ -37,7 +40,7 @@ on('Ready', function() {
 		page-break-inside: avoid;
 	}
 	
-	/* differentiate nested <mark> elements with a gamut of colors */
+	// differentiate nested <mark> elements with a gamut of colors
 	mark {
 		color: #000;
 		transition: background-color 0.2s ease-in;
