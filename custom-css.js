@@ -19,7 +19,7 @@ function hereDoc(f) {
 function embedStyle(fn) {
 	// get the CSS placed in a multi-line comment in the passed function
 	var css = hereDoc(fn)
-		// and replace any "//" with "/*" and to the zero or more characters other
+		// and replace any "//" with "/*", and to the zero or more characters other
 		// than a new line that follow append the suffix "*/"
 		.replace(/\/\/(.*)/g, '/*$1*/');
 
