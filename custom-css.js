@@ -40,6 +40,10 @@ on('Ready', function() {
 		page-break-inside: avoid;
 	}
 	
+	.small-caps {
+		font-variant: small-caps;
+	}
+	
 	// differentiate nested <mark> elements with a gamut of colors
 	mark {
 		color: #000;
