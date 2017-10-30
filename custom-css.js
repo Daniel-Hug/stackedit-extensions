@@ -4,8 +4,13 @@
 // pass a function-encased multi-line comment
 // returns the multi-line string in the comment
 function hereDoc(f) {
+	// return the function's representation as a string
 	return f.toString()
+		// except, if the string starts with one or more characters other than a forward slash
+		// which are followed by "/*" and then optionally followed by "!", remove this whole prefix.
 		.replace(/^[^/]+\/\*!?/, '')
+		// and, if "*/" appears followed by one or more characters other
+		// than a forward slash to end the string, remove this whole suffix.
 		.replace(/\*\/[^/]+$/, '');
 }
 
