@@ -6,11 +6,16 @@
 	// Allow multiple listeners on userCustom events
 	var on = (function() {
 		var handlersByEvent = {};
+		var contextAndArgsOfLastFiringByEvent = {};
 		var events = ['PreviewFinished', 'Ready'];
 
 		events.forEach(function(event) {
 			userCustom['on' + event] = function() {
 				var args = arguments;
+				contextAndArgsOfLastFiringByEvent[event] = {
+					context: this,
+					args: args
+				};
 				(handlersByEvent[event] || []).forEach(function(handler) {
 					handler.apply(this, args);
 				}, this);
@@ -24,6 +29,11 @@
 		return function addEventListener(event, handler) {
 			var event = capitalize(event);
 			handlersByEvent[event] = handlersByEvent[event] || [];
+			if (contextAndArgsOfLastFiringByEvent[event]) {
+				var context = contextAndArgsOfLastFiringByEvent[event].context;
+				var args = contextAndArgsOfLastFiringByEvent[event][1].args;
+				handler.apply(context, args);
+			}
 			handlersByEvent[event].push(handler);
 		};
 	})();
