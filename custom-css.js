@@ -31,6 +31,7 @@ function embedStyle(fn) {
 	document.head.appendChild(style);
 }
 
+debugger;
 on('Ready', function() {
 	embedStyle(function() {/*!
 	ul, ol, li {
