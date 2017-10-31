@@ -31,7 +31,7 @@
 			handlersByEvent[event] = handlersByEvent[event] || [];
 			if (contextAndArgsOfLastFiringByEvent[event]) {
 				var context = contextAndArgsOfLastFiringByEvent[event].context;
-				var args = contextAndArgsOfLastFiringByEvent[event][1].args;
+				var args = contextAndArgsOfLastFiringByEvent[event].args;
 				handler.apply(context, args);
 			}
 			handlersByEvent[event].push(handler);
